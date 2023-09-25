@@ -29,7 +29,7 @@ gen_ssh_key:
   script:
     #- echo GCP_SERVICE_ACCOUNT_KEY > gcp_key.json
     - gcloud auth activate-service-account --key-file=gcp_key.json --project=proud-curve-399517
-    - apt update && apk upgrade
+    - apt update && apt upgrade
     - apt add unzip
     - wget -O terraform.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_386.zip
     - unzip terraform.zip && mv ./terraform /bin
