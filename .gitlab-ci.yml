@@ -35,14 +35,14 @@ gen_ssh_key:
     - wget -O terraform.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_386.zip
     - unzip terraform.zip && mv ./terraform /bin
     - terraform -version
-    - gsutil mb -p proud-curve-399517 -c STANDARD -l us-central1 gs://$TF_STATE_BUCKET/
+   # - gsutil mb -p proud-curve-399517 -c STANDARD -l us-central1 gs://$TF_STATE_BUCKET/
 
      
     - >
         terraform init 
-        -backend-config="bucket=${TF_STATE_BUCKET}" 
-        -backend-config="prefix=${TF_STATE_OBJECT}" 
-        -backend-config="credentials=gcp_key.json"
+       # -backend-config="bucket=${TF_STATE_BUCKET}" 
+       # -backend-config="prefix=${TF_STATE_OBJECT}" 
+      #S  -backend-config="credentials=gcp_key.json"
       
 dry_provision:
   image: google/cloud-sdk
