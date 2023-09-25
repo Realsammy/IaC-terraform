@@ -48,7 +48,7 @@ dry_provision:
     variables:
       - $CI_COMMIT_REF_NAME == "dev-ci"
   script:
-    - reference [.provision_job, script]
+    - !reference [.provision_job, script]
     - terraform validate
     - terraform plan
 
