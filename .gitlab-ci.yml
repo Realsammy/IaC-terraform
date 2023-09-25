@@ -7,7 +7,7 @@ stages:
 
 variables:
   TERRAFORM_VERSION: 1.5.0
-  TF_STATE_BUCKET: your-gcs-bucket
+  TF_STATE_BUCKET: remote_terraform_state2"
   TF_STATE_OBJECT: tf_state.tfstate
   GCP_PROJECT_ID: $GCP_PROJECT_ID
   GCP_SERVICE_ACCOUNT_KEY: $GCP_SERVICE_ACCOUNT_KEY  # Set this as a GitLab CI/CD secret variable
@@ -35,6 +35,9 @@ gen_ssh_key:
     - wget -O terraform.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_386.zip
     - unzip terraform.zip && mv ./terraform /bin
     - terraform -version
+    - gsutil mb -p proud-curve-399517 -c STANDARD -l us-central1 gs://$TF_STATE_BUCKET/
+
+     
     - >
         terraform init 
         -backend-config="bucket=${TF_STATE_BUCKET}" 
