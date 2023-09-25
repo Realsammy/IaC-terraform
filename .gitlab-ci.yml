@@ -10,7 +10,7 @@ variables:
   TF_STATE_BUCKET: your-gcs-bucket
   TF_STATE_OBJECT: tf_state.tfstate
   GCP_PROJECT_ID: $GCP_PROJECT_ID
-  #GCP_SERVICE_ACCOUNT_KEY: $GCP_SERVICE_ACCOUNT_KEY  # Set this as a GitLab CI/CD secret variable
+  GCP_SERVICE_ACCOUNT_KEY: $GCP_SERVICE_ACCOUNT_KEY  # Set this as a GitLab CI/CD secret variable
 
 gen_ssh_key:
   image: bash:latest
@@ -27,8 +27,8 @@ gen_ssh_key:
 
 .provision_job:
   script:
-    - echo $GCP_SERVICE_ACCOUNT_KEY > gcp_key.json
-    - gcloud auth activate-service-account --key-file=gcp_key.json --project=proud-curve-399517
+    #- echo GCP_SERVICE_ACCOUNT_KEY > gcp_key.json
+    - gcloud auth activate-service-account --key-file=file(gcp_key.json) --project=proud-curve-399517
     - apk update && apk upgrade
     - apk add unzip
     - wget -O terraform.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_386.zip
@@ -60,7 +60,7 @@ actual_provision:
   allow_failure: true
   only:
     variables:
-      - $CI_COMMIT_REF_NAME == "master"
+      - $CI_COMMIT_REF_NAME == "dev-ci"
   script:
     - !reference [.provision_job, script]
     - terraform apply -auto-approve
@@ -79,7 +79,7 @@ ansible_conf:
   allow_failure: true
   only:
     variables:
-      - $CI_COMMIT_REF_NAME == "master"
+      - $CI_COMMIT_REF_NAME == "dev-ci"
   script:
     - cat *_vm_ip.txt > vm_ip.txt
     - chmod 750 ansible_files
@@ -94,7 +94,7 @@ dry_destroy_tf:
   dependencies: []  # No dependencies for this stage
   only:
     variables:
-      - $CI_COMMIT_REF_NAME == "master"
+      - $CI_COMMIT_REF_NAME == "dev-ci"
   when: manual
   script:
     - reference [.provision_job, script]
@@ -108,7 +108,7 @@ actual_destroy_tf:
   when: manual
   only:
     variables:
-      - $CI_COMMIT_REF_NAME == "master"
+      - $CI_COMMIT_REF_NAME == "dev-ci"
   script:
     - reference [.provision_job, script]
     - terraform destroy -auto-approve
