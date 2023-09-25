@@ -43,6 +43,7 @@ gen_ssh_key:
 dry_provision:
   image: google/cloud-sdk
   stage: tf_plan
+  dependencies: []  # No dependencies for this stage
   only:
     variables:
       - $CI_COMMIT_REF_NAME == "main"
@@ -54,6 +55,8 @@ dry_provision:
 actual_provision:
   image: google/cloud-sdk
   stage: tf_apply
+  dependencies:
+    - dry_provision  # Wait for 'dry_provision' stage to finish
   allow_failure: true
   only:
     variables:
@@ -71,6 +74,8 @@ actual_provision:
 ansible_conf:
   image: python:3.9.17-slim-bullseye
   stage: ansible
+  dependencies:
+    - actual_provision  # Wait for 'actual_provision' stage to finish
   allow_failure: true
   only:
     variables:
@@ -86,6 +91,7 @@ ansible_conf:
 dry_destroy_tf:
   image: google/cloud-sdk
   stage: tf_destroy
+  dependencies: []  # No dependencies for this stage
   only:
     variables:
       - $CI_COMMIT_REF_NAME == "master"
@@ -97,10 +103,12 @@ dry_destroy_tf:
 actual_destroy_tf:
   image: google/cloud-sdk
   stage: tf_destroy
+  dependencies:
+    - dry_destroy_tf  # Wait for 'dry_destroy_tf' stage to finish
+  when: manual
   only:
     variables:
       - $CI_COMMIT_REF_NAME == "master"
-  when: manual
   script:
     - !reference [.provision, script]
     - terraform destroy -auto-approve
