@@ -25,7 +25,7 @@ gen_ssh_key:
     paths:
       - .keys
 
-provision:
+.provision_job:
   script:
     - echo "$GCP_SERVICE_ACCOUNT_KEY" > gcp_key.json
     - gcloud auth activate-service-account --key-file=gcp_key.json --project=$GCP_PROJECT_ID
@@ -48,7 +48,7 @@ dry_provision:
     variables:
       - $CI_COMMIT_REF_NAME == "dev-ci"
   script:
-    - !reference [.provision, script]
+    - reference [.provision_job, script]
     - terraform validate
     - terraform plan
 
@@ -62,7 +62,7 @@ actual_provision:
     variables:
       - $CI_COMMIT_REF_NAME == "master"
   script:
-    - !reference [.provision, script]
+    #- !reference [.provision, script]
     - terraform apply -auto-approve
     - sleep 30
   artifacts:
@@ -97,7 +97,7 @@ dry_destroy_tf:
       - $CI_COMMIT_REF_NAME == "master"
   when: manual
   script:
-    - !reference [.provision, script]
+    - reference [.provision_job, script]
     - terraform plan -destroy
 
 actual_destroy_tf:
@@ -110,5 +110,5 @@ actual_destroy_tf:
     variables:
       - $CI_COMMIT_REF_NAME == "master"
   script:
-    - !reference [.provision, script]
+    - reference [.provision_job, script]
     - terraform destroy -auto-approve
