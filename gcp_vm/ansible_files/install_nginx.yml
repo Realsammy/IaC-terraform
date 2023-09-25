@@ -1,0 +1,17 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+    - name: Update Repository Index
+      apt: 
+        update_cache: yes
+    - name: Install Latest nginx Server
+      apt: 
+        name: nginx
+        state: latest
+    - name: Start nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
