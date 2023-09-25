@@ -27,7 +27,7 @@ gen_ssh_key:
 
 .provision_job:
   script:
-    - echo "./service-account-key.json" > gcp_key.json
+    - echo "$GCP_SERVICE_ACCOUNT_KEY" > gcp_key.json
     - gcloud auth activate-service-account --key-file=gcp_key.json --project=proud-curve-399517
     - apk update && apk upgrade
     - apk add unzip
@@ -62,7 +62,7 @@ actual_provision:
     variables:
       - $CI_COMMIT_REF_NAME == "master"
   script:
-    #- !reference [.provision, script]
+    - !reference [.provision_job, script]
     - terraform apply -auto-approve
     - sleep 30
   artifacts:
