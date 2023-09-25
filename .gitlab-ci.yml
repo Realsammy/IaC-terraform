@@ -16,6 +16,7 @@ gen_ssh_key:
   image: bash:latest
   stage: ssh_gen
   script:
+    - echo "$GCP_SERVICE_ACCOUNT_KEY"
     - apk update && apk add openssh-client
     - mkdir .keys && cd ./.keys
     - ssh-keygen -f vm_keys -q -t rsa -N "" && echo "Keys successfully generated"

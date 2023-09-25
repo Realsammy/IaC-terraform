@@ -13,8 +13,8 @@ terraform {
 
 provider "google" {
   # Configuration settings for the GCP provider can be added here
-  credentials = file("./service_account-key.json")  # Path to your service account key file
-  project     = "your-gcp-project-id"                       # Your GCP project ID
+  credentials = file("./gcp_key.json")  # Path to your service account key file
+  project     = "proud-curve-399517"                       # Your GCP project ID
   region      = "us-central1"                                # Your desired GCP region
   zone        = "us-central1-a"
 }
