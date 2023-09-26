@@ -15,7 +15,7 @@ terraform {
 provider "google" {
  
   credentials = file("./gcp_key.json")  
-  project     = "proud-curve-399517"                      
+  project     = "terrafor4gcp"                      
   region      = "us-central1"                                
   zone        = "us-central1-a"
 }
