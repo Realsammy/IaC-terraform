@@ -7,7 +7,7 @@ module "gcp_infrastructure" {
   vm_disk_size   = 30
   gcp_region     = "us-central1"
   gcp_zone       = "us-central1-b"
-  gcp_project_id = "$GCP_PROJECT_ID" #"terrafor4gcp"
-  gcp_credentials_file = "$GCP_SERVICE_ACCOUNT_KEY" #file("./gcp_key.json")
+  gcp_project_id = "terrafor4gcp" #"terrafor4gcp"
+  gcp_credentials_file = file("./gcp_key.json")
 }
 
