@@ -101,7 +101,7 @@ ansible_conf:
 
 dry_destroy_tf:
   image: google/cloud-sdk:latest
-  stage: tf_destroy
+  stage: destroy
   dependencies: []  # No dependencies for this stage
   only:
     variables:
