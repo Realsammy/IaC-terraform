@@ -11,6 +11,7 @@ variables:
   TF_STATE_OBJECT: tf_state.tfstate
   GCP_PROJECT_ID: $GCP_PROJECT_ID
   GCP_SERVICE_ACCOUNT_KEY: $GCP_SERVICE_ACCOUNT_KEY  # Set this as a GitLab CI/CD secret variable
+  API_NAME: "compute.googleapis.com"
 
 gen_ssh_key:
   image: bash:latest
@@ -45,7 +46,7 @@ gen_ssh_key:
       #S  -backend-config="credentials=gcp_key.json"
       
 dry_provision:
-  image: google/cloud-sdk
+  image: google/cloud-sdk:latest
   stage: tf_plan
   dependencies: []  # No dependencies for this stage
   only:
@@ -57,7 +58,7 @@ dry_provision:
     - terraform plan
 
 actual_provision:
-  image: google/cloud-sdk
+  image: google/cloud-sdk:latest
   stage: tf_apply
   dependencies:
     - dry_provision  # Wait for 'dry_provision' stage to finish
@@ -108,7 +109,7 @@ ansible_conf:
     - ansible-playbook install_nginx.yml
 
 dry_destroy_tf:
-  image: google/cloud-sdk
+  image: google/cloud-sdk:latest
   stage: tf_destroy
   dependencies: []  # No dependencies for this stage
   only:
@@ -120,7 +121,7 @@ dry_destroy_tf:
     - terraform plan -destroy
 
 actual_destroy_tf:
-  image: google/cloud-sdk
+  image: google/cloud-sdk:latest
   stage: tf_destroy
   dependencies:
     - dry_destroy_tf  # Wait for 'dry_destroy_tf' stage to finish
