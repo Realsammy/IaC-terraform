@@ -1,42 +1,42 @@
 variable "my_vm_name" {
   type    = string
-  default = "infrastructure-vm"  
+ # default = "infrastructure-vm"  
 }
 variable "my_vm_username" {
   type    = string
-  default = "devops" 
+#  default = "devops" 
 }
 
 variable "my_vm_machine_type" {
   type    = string
-  default = "n1-standard-1" 
+ # default = "n1-standard-1" 
 }
 variable "my_environment" {
   type    = string
-  default = "compute" 
+ # default = "compute" 
 }
 
 variable "my_vm_disk_size" {
   type    = number
-  default = 30  
+ # default = 30  
 }
 
 variable "my_gcp_region" {
   type    = string
-  default = "us-central1"  
+ # default = "us-central1"  
 }
 
 variable "my_gcp_zone" {
   type    = string
-  default = "us-central1-a"  
+ # default = "us-central1-a"  
 }
 
 variable "my_gcp_project_id" {
   type    = string
-  default = "proud-curve-399517"  
+#  default = "proud-curve-399517"  
 }
 
 variable "my_gcp_credentials_file" {
   type    = string
-  default = "./gcp_key.json"  
+ # default = "./gcp_key.json"  
 }
