@@ -1,14 +1,12 @@
-module "gcp_infrastructure" {
-  source = "./gcp_vm"
-
-  # Input variables
-  vm_name               = var.vm_name
-  vm_username           = var.vm_username
-  machine_type          = "n1-standard-1"
-  environment           = var.environment
-  vm_disk_size          = var.vm_disk_size
-  gcp_region            = var.gcp_region
-  gcp_zone              = var.gcp_zone
-  gcp_project_id        = var.gcp_project_id
-  gcp_credentials_file  = var.gcp_credentials_file
+modmodule "gcp_infrastructure" {
+  source         = "./gcp_vm"
+  vm_name        = "vm_name"
+  vm_username    = "devops"
+  environment    = "environment"
+  vm_disk_size   = 30
+  gcp_region     = "us-central1"
+  gcp_zone       = "us-central1-a"
+  gcp_project_id = "proud-curve-399517"
+  gcp_credentials_file = file("./gcp_key.json")
 }
+
