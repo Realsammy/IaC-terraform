@@ -18,6 +18,11 @@ variable "gcp_region" {
   type    = string
 }
 
+variable "machine_type" {
+  type    = string
+  # default = "n1-standard-1"  # You can provide a default value if needed
+}
+
 variable "gcp_zone" {
   type    = string
 }
