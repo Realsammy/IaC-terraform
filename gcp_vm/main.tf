@@ -33,7 +33,7 @@ resource "google_compute_firewall" "firewall_rule" {
 # Create a network interface with a public IP
 resource "google_compute_instance" "vm" {
   name         = var.vm_name
-  machine_type = var.gcp_machine_type
+  machine_type = var.vm_machine_type 
   zone         = var.gcp_zone
 
   boot_disk {
