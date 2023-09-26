@@ -1,4 +1,4 @@
-modmodule "gcp_infrastructure" {
+module "gcp_infrastructure" {
   source         = "./gcp_vm"
   vm_name        = "vm_name"
   vm_username    = "devops"
