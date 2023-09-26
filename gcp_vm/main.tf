@@ -50,7 +50,8 @@ resource "google_compute_instance" "vm" {
     }
   }
 
-  metadata = {
-    ssh-keys = "${var.vm_username}:${file(".keys/vm_keys.pub")}"
-  }
+  #metadata = {
+   # ssh-keys = "${var.vm_username}:${file(".keys/vm_keys.pub")}"
+
+  #}
 }
