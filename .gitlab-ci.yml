@@ -11,7 +11,7 @@ variables:
   TF_STATE_OBJECT: tf_state.tfstate
   GCP_PROJECT_ID: $GCP_PROJECT_ID
   GCP_SERVICE_ACCOUNT_KEY: $GCP_SERVICE_ACCOUNT_KEY  # Set this as a GitLab CI/CD secret variable
-  API_NAME: "compute.googleapis.com"
+  
 
 gen_ssh_key:
   image: bash:latest
@@ -29,7 +29,7 @@ gen_ssh_key:
 .provision_job:
   script:
     #- echo GCP_SERVICE_ACCOUNT_KEY > gcp_key.json
-    - gcloud auth activate-service-account --key-file=gcp_key.json --project=terrafor4gcp
+    - gcloud auth activate-service-account --key-file=$GCP_SERVICE_ACCOUNT_KEY --project=$GCP_PROJECT_ID
     - apt update && apt upgrade
     - apt install unzip
     - apt install wget
@@ -71,6 +71,12 @@ actual_provision:
      
     - terraform apply -auto-approve
     - sleep 30
+    - gcloud compute instances describe my-instance \
+        --zone us-central1-b \
+        --format 'value(networkInterfaces[0].networkIP)' \
+        > vm_ip.txt
+
+
   artifacts:
     name: "vm_ip"
     expire_in: "1 day"
