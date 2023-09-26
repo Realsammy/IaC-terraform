@@ -1,7 +1,7 @@
 variable "my_vm_name" {
   type    = string
   default = "infrastructure-vm"  
-
+}
 variable "my_vm_username" {
   type    = string
   default = "devops" 
@@ -10,7 +10,7 @@ variable "my_vm_username" {
 variable "my_vm_machine_type" {
   type    = string
   default = "n1-standard-1" 
-
+}
 variable "my_environment" {
   type    = string
   default = "compute" 
