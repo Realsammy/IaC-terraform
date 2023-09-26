@@ -4,7 +4,7 @@ module "gcp_infrastructure" {
   # Input variables
   vm_name               = var.vm_name
   vm_username           = var.vm_username
-  #vm_machine_type       = var.machine_type
+  machine_type          = "n1-standard-1"
   environment           = var.environment
   vm_disk_size          = var.vm_disk_size
   gcp_region            = var.gcp_region
