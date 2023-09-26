@@ -68,20 +68,6 @@ actual_provision:
       - $CI_COMMIT_REF_NAME == "dev-ci"
   script:
     - !reference [.provision_job, script]
-    - |
-      # Check if the API is enabled
-      API_STATUS=$(gcloud services list --project proud-curve-399517 --format="value(NAME,STATUS)" | grep $API_NAME | awk '{print $2}')
-
-      if [ "$API_STATUS" != "ENABLED" ]; then
-          echo "Compute Engine API is not enabled. Enabling..."
-          gcloud services enable $API_NAME --project proud-curve-399517
-          echo "Waiting for API activation..."
-          sleep 300  # Sleep for 5 minutes to allow activation
-      else
-          echo "Compute Engine API is already enabled."
-      fi
-
-    
      
     - terraform apply -auto-approve
     - sleep 30
