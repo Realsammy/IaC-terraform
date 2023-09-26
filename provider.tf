@@ -17,5 +17,5 @@ provider "google" {
   credentials = file("./gcp_key.json")  
   project     = "terrafor4gcp"                      
   region      = "us-central1"                                
-  zone        = "us-central1-a"
+  zone        = "us-central1-b"
 }
