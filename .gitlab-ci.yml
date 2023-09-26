@@ -92,7 +92,7 @@ ansible_conf:
     variables:
       - $CI_COMMIT_REF_NAME == "dev-ci"
   script:
-    - cat *_vm_ip.txt > vm_ip.txt
+    - cat vm_ip.txt > vm_ip.txt
     - chmod 750 ansible_files
     - cd ansible_files
     - apt-get update && apt-get install ansible -y
@@ -108,7 +108,7 @@ dry_destroy_tf:
       - $CI_COMMIT_REF_NAME == "dev-ci"
   when: manual
   script:
-    - reference [.provision_job, script]
+    - !reference [.provision_job, script]
     - terraform plan -destroy
 
 actual_destroy_tf:
@@ -121,6 +121,6 @@ actual_destroy_tf:
     variables:
       - $CI_COMMIT_REF_NAME == "dev-ci"
   script:
-    - reference [.provision_job, script]
+    - !reference [.provision_job, script]
     - terraform destroy -auto-approve
 
