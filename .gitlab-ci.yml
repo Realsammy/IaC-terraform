@@ -1,9 +1,9 @@
 stages:
   - ssh_gen
-  - tf_plan
-  - tf_apply
+  - plan
+  - apply
   - ansible
-  - tf_destroy
+  - destroy
 
 variables:
   TERRAFORM_VERSION: 1.5.7
@@ -47,7 +47,7 @@ gen_ssh_key:
       
 dry_provision:
   image: google/cloud-sdk:latest
-  stage: tf_plan
+  stage: plan
   dependencies: []  # No dependencies for this stage
   only:
     variables:
@@ -59,7 +59,7 @@ dry_provision:
 
 actual_provision:
   image: google/cloud-sdk:latest
-  stage: tf_apply
+  stage: apply
   dependencies:
     - dry_provision  # Wait for 'dry_provision' stage to finish
   allow_failure: true
@@ -113,7 +113,7 @@ dry_destroy_tf:
 
 actual_destroy_tf:
   image: google/cloud-sdk:latest
-  stage: tf_destroy
+  stage: destroy
   dependencies:
     - dry_destroy_tf  # Wait for 'dry_destroy_tf' stage to finish
   when: manual
