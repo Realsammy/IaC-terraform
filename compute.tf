@@ -3,6 +3,7 @@ module "gcp_infrastructure" {
   vm_name        = "vm_name"
   vm_username    = "devops"
   environment    = "environment"
+  machine_type  = "n1-standard-1"
   vm_disk_size   = 30
   gcp_region     = "us-central1"
   gcp_zone       = "us-central1-a"
