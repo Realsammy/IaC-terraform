@@ -1,12 +1,14 @@
 module "gcp_infrastructure" {
-  source = "./gcp_vm"  
+  source = "./gcp_vm"
 
   # Input variables
-  environment = "compute"
-  project_id = "your-project-id"
-  zone = "us-west1-a"  
-  instance_name = "dev-vm"
-  instance_type = "n1-standard-1"  
-  disk_size_gb = 30
-  ssh_username = "devops"
+  vm_name            = var.my_vm_name
+  vm_username        = var.my_vm_username
+  vm_machine_type    = var.my_vm_machine_type
+  environment        = var.my_environment
+  vm_disk_size       = var.my_vm_disk_size
+  gcp_region         = var.my_gcp_region
+  gcp_zone           = var.my_gcp_zone
+  gcp_project_id     = var.my_gcp_project_id
+  gcp_credentials_file = var.my_gcp_credentials_file
 }

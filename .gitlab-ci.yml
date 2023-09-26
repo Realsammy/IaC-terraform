@@ -6,7 +6,7 @@ stages:
   - tf_destroy
 
 variables:
-  TERRAFORM_VERSION: 1.5.0
+  TERRAFORM_VERSION: 1.5.7
   TF_STATE_BUCKET: remote_terraform_state2"
   TF_STATE_OBJECT: tf_state.tfstate
   GCP_PROJECT_ID: $GCP_PROJECT_ID
