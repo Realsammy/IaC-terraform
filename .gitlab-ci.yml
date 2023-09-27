@@ -2,6 +2,7 @@ stages:
   - ssh_gen
   - plan
   - apply
+  - debug
   - ansible
   - destroy
 
@@ -72,7 +73,6 @@ actual_provision:
     - terraform apply -auto-approve
     - sleep 30
     - gcloud compute instances describe my-instance --zone=us-central1-b --format='value(networkInterfaces[0].networkIP)' > vm_ip.txt
-    - ls -la
 
   artifacts:
     name: "vm_ip"
@@ -80,7 +80,13 @@ actual_provision:
     paths:
       - 'vm_ip.txt'
 
-      
+debug_vm_ip:
+    stage: debug
+    script:
+      - cat vm_ip.txt
+    dependencies:
+      - actual_provision
+    
   
 ansible_conf:
   image: python:3.9.17-slim-bullseye
@@ -92,6 +98,7 @@ ansible_conf:
     variables:
       - $CI_COMMIT_REF_NAME == "dev-ci"
   script:
+    - ls -la
     - cat vm_ip.txt > vm_ip.txt
     - chmod 750 ansible_files
     - cd ansible_files
