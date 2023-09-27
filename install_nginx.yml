@@ -1,6 +1,6 @@
 ---
 
-- hosts: "{{ lookup('file', '../vm_ip.txt') }}"
+- hosts: defaults
   become: true
   tasks:
     - name: Update Repository Index
