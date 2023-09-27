@@ -100,8 +100,9 @@ ansible_conf:
     variables:
       - $CI_COMMIT_REF_NAME == "dev-ci"
   script:
-    - ls -la
+    
     - cat vm_ip.txt > vm_ip.txt
+    - cat vm_ip.txt
     - chmod 750 ansible_files
     - cd ansible_files
     - apt-get update && apt-get install ansible -y
