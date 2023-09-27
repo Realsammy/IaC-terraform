@@ -94,7 +94,7 @@ ansible_conf:
   script:
     - cat vm_ip.txt > vm_ip.txt
     - chmod 750 ansible_files
-    - cd ansible_files
+    #- cd ansible_files
     - apt-get update && apt-get install ansible -y
     - ansible --version
     - ansible-playbook install_nginx.yml
