@@ -50,6 +50,12 @@ resource "google_compute_instance" "vm" {
     }
   }
 
+  resource "local_file" "vm_ip" {
+  content  = google_compute_instance.vm_instance.network_interface[0].access_config[0].nat_ip
+  filename = "../${var.environment}_vm_ip.txt"
+}
+
+
   #metadata = {
    # ssh-keys = "${var.vm_username}:${file(".keys/vm_keys.pub")}"
 

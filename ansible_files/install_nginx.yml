@@ -1,6 +1,6 @@
 ---
 - name: Install and configure Nginx
-  hosts: defaults
+  hosts: all
   remote_user: devops
   become: yes
 

@@ -34,3 +34,15 @@ variable "gcp_project_id" {
 variable "gcp_credentials_file" {
   type    = string
 }
+
+variable "ssh_user" {
+  type        = string
+  description = "Username of attached to the SSH key"
+ # default     = "samuel"
+}
+
+variable "pubkey_file" {
+  type        = string
+  description = "SSH public key"
+ # default     = "../.keys/vm_keys.pub"
+}
