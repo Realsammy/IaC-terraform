@@ -30,6 +30,8 @@ gen_ssh_key:
 .provision_job:
   script:
     #- echo GCP_SERVICE_ACCOUNT_KEY > gcp_key.json
+    - ls .keys
+    - cat .keys/vm_key.pub
     - gcloud auth activate-service-account --key-file=gcp_key.json --project=terrafor4gcp
     - apt update && apt upgrade
     - apt install unzip
@@ -56,8 +58,6 @@ dry_provision:
       - $CI_COMMIT_REF_NAME == "dev-ci"
   script:
     - !reference [.provision_job, script]
-    - ls .keys
-    - cat .keys/vm_keys.pub
     - terraform validate
     - terraform plan
 
