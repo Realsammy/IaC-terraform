@@ -31,17 +31,23 @@ resource "google_compute_firewall" "firewall_rule" {
 }
 
 # Create a network interface with a public IP
-resource "google_compute_instance" "vm" {
-  name         = var.vm_name
-  machine_type = var.machine_type 
-  zone         = var.gcp_zone
+resource "google_compute_instance" "vm_instance" {
+  name                      = var.environment
+  machine_type              = "e2-small"
+  tags                      = ["${var.environment}"]
+  allow_stopping_for_update = true
 
   boot_disk {
+    # auto_delete = false
     initialize_params {
-      image = "ubuntu-os-cloud/ubuntu-2004-lts"
+      image = "debian-cloud/debian-11"
     }
+  
   }
 
+metadata = {
+    ssh-keys = "${var.ssh_user}:${file(var.pubkey_file)}"
+  }
   network_interface {
     network = google_compute_network.vpc_network.self_link
     subnetwork = google_compute_subnetwork.subnet.self_link
@@ -49,6 +55,9 @@ resource "google_compute_instance" "vm" {
       nat_ip = google_compute_address.public_ip.address
     }
   }
+
+}
+
 
   resource "local_file" "vm_ip" {
   content  = google_compute_instance.vm_instance.network_interface[0].access_config[0].nat_ip
@@ -60,4 +69,4 @@ resource "google_compute_instance" "vm" {
    # ssh-keys = "${var.vm_username}:${file(".keys/vm_keys.pub")}"
 
  # }
-}
+
