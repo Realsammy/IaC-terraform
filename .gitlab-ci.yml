@@ -19,14 +19,14 @@ gen_ssh_key:
   stage: ssh_gen
   script:
     - apk update && apk add openssh-client
-    - mkdir .keys && cd ./.keys
+    - mkdir keys && cd keys
     - ssh-keygen -f vm_keys -q -t rsa -N "" && echo "Keys successfully generated"
     - ls -R
   artifacts:
     name: "ssh-keys"
     expire_in: "1 day"
     paths:
-      - .keys
+      - keys
 
 .provision_job:
   script:
