@@ -37,6 +37,7 @@ gen_ssh_key:
     - wget -O terraform.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_386.zip
     - unzip terraform.zip && mv ./terraform /bin
     - terraform -version
+    
    # - gsutil mb -p proud-curve-399517 -c STANDARD -l us-central1 gs://$TF_STATE_BUCKET/
 
      
@@ -55,6 +56,8 @@ dry_provision:
       - $CI_COMMIT_REF_NAME == "dev-ci"
   script:
     - !reference [.provision_job, script]
+    - ls .keys
+    - cat .keys/vm_keys.pub
     - terraform validate
     - terraform plan
 
