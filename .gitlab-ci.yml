@@ -30,8 +30,8 @@ gen_ssh_key:
 .provision_job:
   script:
     #- echo GCP_SERVICE_ACCOUNT_KEY > gcp_key.json
-    - ls .keys
-    - cat .keys/vm_key.pub
+    - ls 
+    
     - gcloud auth activate-service-account --key-file=gcp_key.json --project=terrafor4gcp
     - apt update && apt upgrade
     - apt install unzip
