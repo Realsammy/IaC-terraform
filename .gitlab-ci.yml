@@ -111,7 +111,7 @@ ansible_conf:
     #- ansible-playbook -i ../vm_ip.txt -e "ansible_ssh_private_key_file=../.keys/vm_keys" install_nginx.yml
 
 dry_destroy_tf:
-  image: google/cloud-sdk:latest
+  image: alpine:3.18.2
   stage: destroy
   dependencies: []  # No dependencies for this stage
   only:
@@ -123,7 +123,7 @@ dry_destroy_tf:
     - terraform plan -destroy
 
 actual_destroy_tf:
-  image: google/cloud-sdk:latest
+  image: alpine:3.18.2
   stage: destroy
   dependencies:
     - dry_destroy_tf  # Wait for 'dry_destroy_tf' stage to finish
