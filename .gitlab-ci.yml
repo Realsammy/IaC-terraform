@@ -38,7 +38,7 @@ gen_ssh_key:
     - ls -R
    # - gcloud auth activate-service-account --key-file=gcp_key.json --project=terrafor4gcp
     - apk update && apk upgrade
-    - unzip
+    - apk add unzip
     #- apk install wget
     - wget -O terraform.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_386.zip
     - unzip terraform.zip && mv ./terraform /bin
