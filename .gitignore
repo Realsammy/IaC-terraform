@@ -10,7 +10,7 @@ secrets
 notes
 
 # Exclude Key Pair used in testing locally
-.keys/vm_keys*
+#.keys/vm_keys*
 
 # Exclude terraform state files from the terraform import
 import/.terraform*

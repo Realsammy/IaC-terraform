@@ -27,6 +27,7 @@ gen_ssh_key:
     expire_in: "1 day"
     paths:
       - keys
+      - ls -R
 
 .provision_job:
   script:
