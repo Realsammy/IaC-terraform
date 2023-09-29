@@ -61,7 +61,7 @@ metadata = {
 
   resource "local_file" "vm_ip" {
   content  = google_compute_instance.vm_instance.network_interface[0].access_config[0].nat_ip
-  filename = "../vm_ip.txt"
+  filename = "../${var.environment}_vm_ip.txt"
 }
 
 
