@@ -36,7 +36,7 @@ gen_ssh_key:
     #- echo GCP_SERVICE_ACCOUNT_KEY > gcp_key.json
     - pwd
     - ls -R
-    - gcloud auth activate-service-account --key-file=gcp_key.json --project=terrafor4gcp
+   # - gcloud auth activate-service-account --key-file=gcp_key.json --project=terrafor4gcp
     - apk update && apk upgrade
     - apk install unzip
     - apk install wget
@@ -76,11 +76,11 @@ actual_provision:
       - $CI_COMMIT_REF_NAME == "dev-ci"
   script:
     - !reference [.provision_job, script]
-     
+   
     - terraform apply -auto-approve
     - sleep 30
     #- gcloud compute instances describe my-instance --zone=us-central1-b --format='value(networkInterfaces[0].networkIP)' > vm_ip.txt
-    - gcloud compute instances describe my-instance --zone=us-central1-b --format='value(networkInterfaces[0].accessConfigs[0].natIP)' > vm_ip.txt
+   # - gcloud compute instances describe my-instance --zone=us-central1-b --format='value(networkInterfaces[0].accessConfigs[0].natIP)' > vm_ip.txt
 
 
   artifacts:
