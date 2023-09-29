@@ -19,21 +19,22 @@ gen_ssh_key:
   stage: ssh_gen
   script:
     - apk update && apk add openssh-client
-    - mkdir keys && cd keys
+    - mkdir .keys && cd ./.keys
     - ssh-keygen -f vm_keys -q -t rsa -N "" && echo "Keys successfully generated"
-   
+    - pwd
+    - ls -R
   artifacts:
     name: "ssh-keys"
     expire_in: "1 day"
     paths:
-      - keys
+      - .keys
       - ls -R
 
 .provision_job:
   dependencies : [gen_ssh_key]
   script:
     #- echo GCP_SERVICE_ACCOUNT_KEY > gcp_key.json
-   
+    - pwd
     - ls -R
     - gcloud auth activate-service-account --key-file=gcp_key.json --project=terrafor4gcp
     - apt update && apt upgrade
