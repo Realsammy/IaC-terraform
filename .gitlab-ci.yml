@@ -87,16 +87,7 @@ actual_provision:
     name: "vm_ip"
     expire_in: "1 day"
     paths:
-    #  - '*_vm_ip.txt'
-      - 'rail-network_vm_ip.txt'
-
-
-debug_vm_ip:
-    stage: debug
-    script:
-      - cat vm_ip.txt
-    dependencies:
-      - actual_provision
+      - '*_vm_ip.txt'
     
   
 ansible_conf:
