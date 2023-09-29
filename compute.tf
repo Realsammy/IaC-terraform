@@ -1,6 +1,6 @@
 module "gcp_infrastructure" {
   source         = "./gcp_vm"
-  vm_name        = "my-instance"
+  vm_name        = "rail-instance"
   vm_username    = "devops"
   environment    = "rail-network"
   machine_type   = "n1-standard-1"

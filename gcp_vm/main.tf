@@ -32,7 +32,7 @@ resource "google_compute_firewall" "firewall_rule" {
 
 # Create a network interface with a public IP
 resource "google_compute_instance" "vm_instance" {
-  name                      = var.environment
+  name                      = var.vm_name
   machine_type              = "e2-small"
   tags                      = ["${var.environment}"]
   allow_stopping_for_update = true
@@ -61,7 +61,7 @@ metadata = {
 
   resource "local_file" "vm_ip" {
   content  = google_compute_instance.vm_instance.network_interface[0].access_config[0].nat_ip
-  filename = "./${var.environment}_vm_ip.txt"
+  filename = ".../${var.environment}_vm_ip.txt"
 }
 
 
