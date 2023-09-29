@@ -30,6 +30,7 @@ gen_ssh_key:
       - ls -R
 
 .provision_job:
+  dependencies : [gen_ssh_key]
   script:
     #- echo GCP_SERVICE_ACCOUNT_KEY > gcp_key.json
    
