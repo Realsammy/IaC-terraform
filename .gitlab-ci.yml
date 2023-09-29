@@ -87,7 +87,7 @@ actual_provision:
     name: "vm_ip"
     expire_in: "1 day"
     paths:
-      - 'vm_ip.txt'
+      - '*_vm_ip.txt'
 
 debug_vm_ip:
     stage: debug
