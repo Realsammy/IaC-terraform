@@ -37,9 +37,9 @@ gen_ssh_key:
     - pwd
     - ls -R
     - gcloud auth activate-service-account --key-file=gcp_key.json --project=terrafor4gcp
-    - apt update && apt upgrade
-    - apt install unzip
-    - apt install wget
+    - apk update && apk upgrade
+    - apk install unzip
+    - apk install wget
     - wget -O terraform.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_386.zip
     - unzip terraform.zip && mv ./terraform /bin
     - terraform -version
@@ -49,12 +49,12 @@ gen_ssh_key:
      
     - >
         terraform init 
-        -backend-config="bucket=${TF_STATE_BUCKET}" 
-        -backend-config="prefix=${TF_STATE_OBJECT}" 
-        -backend-config="credentials=${GCP_SERVICE_ACCOUNT_KEY}"
+       # -backend-config="bucket=${TF_STATE_BUCKET}" 
+       # -backend-config="prefix=${TF_STATE_OBJECT}" 
+       # -backend-config="credentials=${GCP_SERVICE_ACCOUNT_KEY}"
       
 dry_provision:
-  image: google/cloud-sdk:latest
+  image: alpine:3.18.2
   stage: plan
   dependencies: []  # No dependencies for this stage
   only:
@@ -66,7 +66,7 @@ dry_provision:
     - terraform plan
 
 actual_provision:
-  image: google/cloud-sdk:latest
+  image: alpine:3.18.2
   stage: apply
   dependencies:
     - dry_provision  # Wait for 'dry_provision' stage to finish
