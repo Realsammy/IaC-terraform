@@ -36,7 +36,7 @@ gen_ssh_key:
     #- echo GCP_SERVICE_ACCOUNT_KEY > gcp_key.json
     - pwd
     - ls -R
-    - gcloud auth activate-service-account --key-file=gcp_key.json --project=terrafor4gcp
+    - gcloud auth activate-service-account --key-file=${GCP_SERVICE_ACCOUNT_KEY} --project=${$GCP_PROJECT_ID} # terrafor4gcp
     - apt update && apt upgrade
     - apt install unzip
     - apt install wget
@@ -49,9 +49,9 @@ gen_ssh_key:
      
     - >
         terraform init 
-       # -backend-config="bucket=${TF_STATE_BUCKET}" 
-       # -backend-config="prefix=${TF_STATE_OBJECT}" 
-      #S  -backend-config="credentials=gcp_key.json"
+        -backend-config="bucket=${TF_STATE_BUCKET}" 
+        -backend-config="prefix=${TF_STATE_OBJECT}" 
+        -backend-config="credentials=${GCP_SERVICE_ACCOUNT_KEY}"
       
 dry_provision:
   image: google/cloud-sdk:latest
