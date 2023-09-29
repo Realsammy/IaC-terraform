@@ -113,8 +113,8 @@ ansible_conf:
     - cd ansible_files
     - apt-get update && apt-get install ansible -y
     - ansible --version
-    #- ansible-playbook install_nginx.yml
-    - ansible-playbook -i ../vm_ip.txt -e "ansible_ssh_private_key_file=../.keys/vm_keys" install_nginx.yml
+    - ansible-playbook install_nginx.yml
+    #- ansible-playbook -i ../vm_ip.txt -e "ansible_ssh_private_key_file=../.keys/vm_keys" install_nginx.yml
 
 dry_destroy_tf:
   image: google/cloud-sdk:latest

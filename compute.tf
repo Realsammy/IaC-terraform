@@ -8,7 +8,7 @@ module "gcp_infrastructure" {
   gcp_region     = "us-central1"
   gcp_zone       = "us-central1-b"
   ssh_user       = "samuel"
-  pubkey_file    = "./keys/vm_keys.pub"
+  pubkey_file    = "./ssh-keys/keys/vm_keys.pub"
   gcp_project_id = "terrafor4gcp" #"terrafor4gcp"
   gcp_credentials_file = file("./gcp_key.json")
 }
