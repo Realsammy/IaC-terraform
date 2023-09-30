@@ -103,6 +103,8 @@ ansible_conf:
     
     - cat vm_ip.txt > vm_ip.txt
     - cat vm_ip.txt
+    - chmod 600 .keys/vm_keys
+
     - chmod 750 ansible_files
     - cd ansible_files
     - apt-get update && apt-get install ansible -y
