@@ -20,6 +20,10 @@
         enabled: yes
         state: started
 
+    - name: Set PATH to include ufw
+      ansible_env:
+        PATH: "{{ ansible_env.PATH }}:/usr/sbin:/sbin"
+
     - name: Allow HTTP traffic through UFW
       ufw:
         rule: allow
