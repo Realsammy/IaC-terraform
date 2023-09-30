@@ -48,7 +48,7 @@ variable "pubkey_file" {
 }
 
 #variable "db_host" {
-  type    = string
+ # type    = string
  # default = google_sql_database_instance.example_db.ip_address
 #}
 
