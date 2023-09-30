@@ -22,6 +22,7 @@
 
     - name: Set PATH to include ufw
       command: export PATH=$PATH:/usr/sbin:/sbin
+      become: yes
 
     - name: Allow HTTP traffic through UFW
       ufw:
