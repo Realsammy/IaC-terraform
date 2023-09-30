@@ -56,7 +56,7 @@ gen_ssh_key:
 dry_provision:
   image: alpine:3.18.2
   stage: plan
-  dependencies: []  # No dependencies for this stage
+  #dependencies: []  # No dependencies for this stage
   only:
     variables:
       - $CI_COMMIT_REF_NAME == "dev-ci"
