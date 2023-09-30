@@ -14,7 +14,7 @@ terraform {
 
 provider "google" {
    
-  project     = var.GCP_PROJECT_ID                      
+  project     = "terrafor4gcp"                      
   region      = "us-central1"                                
   zone        = "us-central1-b"
 }
