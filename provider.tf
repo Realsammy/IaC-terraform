@@ -14,7 +14,7 @@ terraform {
 
 provider "google" {
    
-  project     = "${GCP_PROJECT_ID}"                      
+  project     = var.GCP_PROJECT_ID                      
   region      = "us-central1"                                
   zone        = "us-central1-b"
 }
