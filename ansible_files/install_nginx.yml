@@ -1,33 +1,17 @@
 ---
-- name: Install and configure Nginx
-  hosts: all
-  remote_user: devops
-  become: yes
 
+- hosts: all
+  become: true
   tasks:
-    - name: Update package cache
-      apt:
+    - name: Update Repository Index
+      apt: 
         update_cache: yes
-
-    - name: Install Nginx
-      apt:
+    - name: Install Latest nginx Server
+      apt: 
+        name: nginx # Docker not nginx
+        state: latest
+    - name: Start nginx
+      service:
         name: nginx
-        state: present
-
-    - name: Start Nginx service
-      systemd:
-        name: nginx
-        enabled: yes
         state: started
-
-    - name: Set PATH to include ufw
-      command: export PATH=$PATH:/usr/sbin:/sbin
-      become: yes
-
-    - name: Allow HTTP traffic through UFW
-      ufw:
-        rule: allow
-        name: 'Nginx HTTP'
-
-    - name: Reload UFW
-      command: ufw reload
+        enabled: yes
