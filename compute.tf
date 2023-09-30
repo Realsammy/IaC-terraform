@@ -11,7 +11,7 @@ module "gcp_infrastructure" {
   pubkey_file    = "./.keys/vm_keys.pub"
   db_host        = "google_sql_database_instance.jupiter_db.ip_address"
   db_port        = "3306" 
-  gcp_project_id = "${TF_STATE_OBJECT}" #"terrafor4gcp"
-  gcp_credentials_file = "${GCP_SERVICE_ACCOUNT_KEY}" # file("./gcp_key.json")
+ # gcp_project_id = ${TF_STATE_OBJECT} #"terrafor4gcp"
+ # gcp_credentials_file =${GCP_SERVICE_ACCOUNT_KEY} # file("./gcp_key.json")
 }
 

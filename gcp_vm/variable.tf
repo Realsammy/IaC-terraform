@@ -27,13 +27,13 @@ variable "gcp_zone" {
   type    = string
 }
 
-variable "gcp_project_id" {
-  type    = string
-}
+#variable "gcp_project_id" {
+ # type    = string
+#}
 
-variable "gcp_credentials_file" {
-  type    = string
-}
+#variable "gcp_credentials_file" {
+ # type    = string
+#}
 
 variable "ssh_user" {
   type        = string
