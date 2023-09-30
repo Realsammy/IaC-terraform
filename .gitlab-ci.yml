@@ -53,7 +53,7 @@ gen_ssh_key:
 dry_provision:
   image: alpine:3.18.2
   stage: plan
-  #dependencies: []  # No dependencies for this stage
+ # dependencies: [gen_ssh_key]  # No dependencies for this stage
   only:
     variables:
       - $CI_COMMIT_REF_NAME == "dev-ci"
@@ -65,7 +65,7 @@ dry_provision:
 actual_provision:
   image: alpine:3.18.2
   stage: apply
-  dependencies: [gen_ssh_key]
+ # dependencies: [gen_ssh_key]
     
   allow_failure: true
   only:
@@ -90,7 +90,7 @@ actual_provision:
 ansible_conf:
   image: python:3.9.17-slim-bullseye
   stage: ansible
-  dependencies:  [gen_ssh_key]
+ # dependencies:  [gen_ssh_key]
  #   - actual_provision  # Wait for 'actual_provision' stage to finish
   allow_failure: true
   only:
@@ -110,7 +110,7 @@ ansible_conf:
 dry_destroy_tf:
   image: alpine:3.18.2
   stage: destroy
-  dependencies: []  # No dependencies for this stage
+#  dependencies: []  # No dependencies for this stage
   only:
     variables:
       - $CI_COMMIT_REF_NAME == "dev-ci"
@@ -123,7 +123,7 @@ actual_destroy_tf:
   image: alpine:3.18.2
   stage: destroy
   dependencies:
-    - dry_destroy_tf  # Wait for 'dry_destroy_tf' stage to finish
+   # - dry_destroy_tf  # Wait for 'dry_destroy_tf' stage to finish
   when: manual
   only:
     variables:
