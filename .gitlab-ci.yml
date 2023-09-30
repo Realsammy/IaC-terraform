@@ -8,7 +8,7 @@ stages:
 
 variables:
   TERRAFORM_VERSION: 1.5.7
- 
+ # TF_ADDRESS: https://gitlab.com/api/v4/projects/50683042/terraform/state
 gen_ssh_key:
   image: bash:latest
   stage: ssh_gen
@@ -35,7 +35,9 @@ gen_ssh_key:
         terraform init 
         -backend-config="bucket=${TF_STATE_BUCKET}" 
         -backend-config="prefix=${TF_STATE_OBJECT}" 
-        -backend-config="credentials=${GCP_SERVICE_ACCOUNT_KEY}"
+        -backend-config="project=${GCP_PROJECT_ID}"
+        -backend-config="credentials=${GCP_SERVICE_ACCOUNT_KEY}"      
+
       
 dry_provision:
   image: alpine:3.18.2
