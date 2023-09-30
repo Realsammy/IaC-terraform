@@ -65,13 +65,13 @@ metadata = {
 }
 
 
-resource "google_sql_database_instance" "jupiter_db" {
-  name             = "jupiter-instance"
-  database_version = "MYSQL_5_7"
-  region           = "us-central1"
+#resource "google_sql_database_instance" "jupiter_db" {
+ # name             = "jupiter-instance"
+  #database_version = "MYSQL_5_7"
+  #region           = "us-central1"
 
-  settings {
-    tier = "db-f1-micro"
-  }
-}
+  #settings {
+   # tier = "db-f1-micro"
+  #}
+#}
 
