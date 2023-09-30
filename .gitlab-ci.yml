@@ -90,8 +90,8 @@ actual_provision:
 ansible_conf:
   image: python:3.9.17-slim-bullseye
   stage: ansible
-  dependencies:
-    - actual_provision  # Wait for 'actual_provision' stage to finish
+  dependencies:  [gen_ssh_key]
+ #   - actual_provision  # Wait for 'actual_provision' stage to finish
   allow_failure: true
   only:
     variables:
@@ -100,8 +100,6 @@ ansible_conf:
     
     - cat vm_ip.txt > vm_ip.txt
     - cat vm_ip.txt
-    - chmod 600 .keys/vm_keys
-
     - chmod 750 ansible_files
     - cd ansible_files
     - apt-get update && apt-get install ansible -y
