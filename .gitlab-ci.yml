@@ -38,11 +38,11 @@ gen_ssh_key:
         terraform init 
         -backend-config="address=${TF_ADDRESS}/dev"
         -backend-config="lock_address=${TF_ADDRESS}/dev/lock" 
-        -backend-config="unlock_address=${TF_ADDRESS}/dev/lock
-        -backend-config="username=oshopayng" \
-        -backend-config="password=$PERSONAL_ACCESS_TOKEN" \
-        -backend-config="lock_method=POST" \
-        -backend-config="unlock_method=DELETE" \
+        -backend-config="unlock_address=${TF_ADDRESS}/dev/lock"
+        -backend-config="username=oshopayng" 
+        -backend-config="password=$PERSONAL_ACCESS_TOKEN" 
+        -backend-config="lock_method=POST" 
+        -backend-config="unlock_method=DELETE" 
         -backend-config="retry_wait_min=5"
       #   -backend-config="bucket=${TF_STATE_BUCKET}" 
      #   -backend-config="prefix=${TF_STATE_OBJECT}" 
