@@ -8,12 +8,7 @@ stages:
 
 variables:
   TERRAFORM_VERSION: 1.5.7
-  #TF_STATE_BUCKET: remote_terraform_state2"
-  #TF_STATE_OBJECT: tf_state.tfstate
- # GCP_PROJECT_ID: $GCP_PROJECT_ID
-  #GCP_SERVICE_ACCOUNT_KEY: $GCP_SERVICE_ACCOUNT_KEY  # Set this as a GitLab CI/CD secret variable
-  
-
+ 
 gen_ssh_key:
   image: bash:latest
   stage: ssh_gen
@@ -21,8 +16,6 @@ gen_ssh_key:
     - apk update && apk add openssh-client
     - mkdir .keys && cd ./.keys
     - ssh-keygen -f vm_keys -q -t rsa -N "" && echo "Keys successfully generated"
-    - pwd
-    - ls -R
   artifacts:
     name: "ssh-keys"
     expire_in: "1 day"
@@ -32,28 +25,21 @@ gen_ssh_key:
 
 .provision_job:
   script:
-    #- echo GCP_SERVICE_ACCOUNT_KEY > gcp_key.json
-   # - gcloud auth activate-service-account --key-file=gcp_key.json --project=terrafor4gcp
     - apk update && apk upgrade
     - apk add unzip
-    #- apk install wget
     - wget -O terraform.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_386.zip
     - unzip terraform.zip && mv ./terraform /bin
     - terraform -version
-    
-   # - gsutil mb -p proud-curve-399517 -c STANDARD -l us-central1 gs://$TF_STATE_BUCKET/
-
      
     - >
         terraform init 
-       # -backend-config="bucket=${TF_STATE_BUCKET}" 
-       # -backend-config="prefix=${TF_STATE_OBJECT}" 
-       # -backend-config="credentials=${GCP_SERVICE_ACCOUNT_KEY}"
+        -backend-config="bucket=${TF_STATE_BUCKET}" 
+        -backend-config="prefix=${TF_STATE_OBJECT}" 
+        -backend-config="credentials=${GCP_SERVICE_ACCOUNT_KEY}"
       
 dry_provision:
   image: alpine:3.18.2
   stage: plan
- # dependencies: [gen_ssh_key]  # No dependencies for this stage
   only:
     variables:
       - $CI_COMMIT_REF_NAME == "dev-ci"
@@ -65,8 +51,7 @@ dry_provision:
 actual_provision:
   image: alpine:3.18.2
   stage: apply
- # dependencies: [gen_ssh_key]
-    
+  
   allow_failure: true
   only:
     variables:
@@ -76,9 +61,6 @@ actual_provision:
    
     - terraform apply -auto-approve
     - sleep 30
-    #- gcloud compute instances describe my-instance --zone=us-central1-b --format='value(networkInterfaces[0].networkIP)' > vm_ip.txt
-   # - gcloud compute instances describe my-instance --zone=us-central1-b --format='value(networkInterfaces[0].accessConfigs[0].natIP)' > vm_ip.txt
-
 
   artifacts:
     name: "vm_ip"
@@ -90,8 +72,6 @@ actual_provision:
 ansible_conf:
   image: python:3.9.17-slim-bullseye
   stage: ansible
- # dependencies:  [gen_ssh_key]
- #   - actual_provision  # Wait for 'actual_provision' stage to finish
   allow_failure: true
   only:
     variables:
@@ -105,12 +85,10 @@ ansible_conf:
     - apt-get update && apt-get install ansible -y
     - ansible --version
     - ansible-playbook install_nginx.yml
-    #- ansible-playbook -i ../vm_ip.txt -e "ansible_ssh_private_key_file=../.keys/vm_keys" install_nginx.yml
 
 dry_destroy_tf:
   image: alpine:3.18.2
   stage: destroy
-#  dependencies: []  # No dependencies for this stage
   only:
     variables:
       - $CI_COMMIT_REF_NAME == "dev-ci"
@@ -122,8 +100,6 @@ dry_destroy_tf:
 actual_destroy_tf:
   image: alpine:3.18.2
   stage: destroy
-  dependencies:
-   # - dry_destroy_tf  # Wait for 'dry_destroy_tf' stage to finish
   when: manual
   only:
     variables:

@@ -1,6 +1,6 @@
 module "gcp_infrastructure" {
   source         = "./gcp_vm"
-  vm_name        = "rail-instance"
+  vm_name        = "Jupiter"
   vm_username    = "devops"
   environment    = "rail-network"
   machine_type   = "n1-standard-1"
@@ -9,7 +9,9 @@ module "gcp_infrastructure" {
   gcp_zone       = "us-central1-b"
   ssh_user       = "devops"
   pubkey_file    = "./.keys/vm_keys.pub"
-  gcp_project_id = "terrafor4gcp"
-  gcp_credentials_file = file("./gcp_key.json")
+  db_host        = "google_sql_database_instance.jupiter_db.ip_address"
+  db_port        = "3306" 
+  gcp_project_id = "${TF_STATE_OBJECT}" #"terrafor4gcp"
+  gcp_credentials_file = "${GCP_SERVICE_ACCOUNT_KEY}" # file("./gcp_key.json")
 }
 
