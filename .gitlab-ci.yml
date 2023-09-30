@@ -35,7 +35,6 @@ gen_ssh_key:
         terraform init 
         -backend-config="bucket=${TF_STATE_BUCKET}" 
         -backend-config="prefix=${TF_STATE_OBJECT}" 
-        -backend-config="project=${GCP_PROJECT_ID}"
         -backend-config="credentials=${GCP_SERVICE_ACCOUNT_KEY}"      
 
       
