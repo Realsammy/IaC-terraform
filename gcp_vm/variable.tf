@@ -47,14 +47,14 @@ variable "pubkey_file" {
  # default     = "../.keys/vm_keys.pub"
 }
 
-variable "db_host" {
+#variable "db_host" {
   type    = string
  # default = google_sql_database_instance.example_db.ip_address
-}
+#}
 
-variable "db_port" {
-  type    = number
-  default = 3306  # Default MySQL port
-}
+#variable "db_port" {
+ # type    = number
+  #default = 3306  # Default MySQL port
+#}
 #
 # Other variables for database credentials, etc.
