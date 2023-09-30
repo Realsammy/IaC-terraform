@@ -31,7 +31,6 @@ gen_ssh_key:
      
 
 .provision_job:
-  dependencies : [gen_ssh_key]
   script:
     #- echo GCP_SERVICE_ACCOUNT_KEY > gcp_key.json
    # - gcloud auth activate-service-account --key-file=gcp_key.json --project=terrafor4gcp
@@ -66,8 +65,8 @@ dry_provision:
 actual_provision:
   image: alpine:3.18.2
   stage: apply
-  dependencies:
-    - dry_provision  
+  dependencies: [gen_ssh_key]
+    
   allow_failure: true
   only:
     variables:
