@@ -1,7 +1,7 @@
-#terraform {
-#  backend "http" {
-  #  }
-#}
+terraform {
+  backend "http" {
+    }
+}
 
 #terraform {
  # backend "gcs" {
