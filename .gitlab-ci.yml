@@ -1,6 +1,7 @@
 stages:
   - ssh_gen
   - plan
+  - merge_request
   - apply
   - debug
   - ansible
