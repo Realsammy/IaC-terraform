@@ -72,7 +72,7 @@ actual_provision:
   allow_failure: true
   only:
     variables:
-      - $CI_COMMIT_REF_NAME == "dev-ci"
+      - $CI_COMMIT_REF_NAME == "main"
   script:
     - !reference [.provision_job, script]
    # - terraform apply "new_state.tfstate"
@@ -93,7 +93,7 @@ ansible_conf:
   allow_failure: true
   only:
     variables:
-      - $CI_COMMIT_REF_NAME == "dev-ci"
+      - $CI_COMMIT_REF_NAME == "main"
   script:
     
     - cat jupiter-network_vm_ip.txt > vm_ip.txt
@@ -109,7 +109,7 @@ dry_destroy_tf:
   stage: destroy
   only:
     variables:
-      - $CI_COMMIT_REF_NAME == "dev-ci"
+      - $CI_COMMIT_REF_NAME == "main"
   when: manual
   script:
     - !reference [.provision_job, script]
@@ -121,7 +121,7 @@ actual_destroy_tf:
   when: manual
   only:
     variables:
-      - $CI_COMMIT_REF_NAME == "dev-ci"
+      - $CI_COMMIT_REF_NAME == "main"
   script:
     - !reference [.provision_job, script]
     - terraform destroy -auto-approve

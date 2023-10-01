@@ -58,6 +58,23 @@ metadata = {
 
 }
 
+# Create a custom route
+resource "google_compute_route" "custom_route" {
+  name                  = "custom-route-${var.environment}"
+  network               = google_compute_network.vpc_network.self_link
+  dest_range            = "0.0.0.0/0"
+  next_hop_gateway      = google_compute_network.vpc_network.gateway_ipv4
+  priority              = 1000
+  tags                  = ["${var.environment}"]
+ # project               = var.gcp_project_id
+  description           = "Custom route for ${var.environment}"
+}
+
+# Create a Google Cloud Storage (GCS) bucket
+resource "google_storage_bucket" "jupiter_bucket" {
+  name     = "jupiter-bucket"
+  location = "US"  # Change this to your desired location
+}
 
   resource "local_file" "vm_ip" {
   content  = google_compute_instance.vm_instance.network_interface[0].access_config[0].nat_ip
