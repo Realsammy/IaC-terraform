@@ -73,7 +73,7 @@ merge_request:
     - echo $PERSONAL_ACCESS_TOKEN
     - echo $PROJECT_ACCESS_TOKEN
 
-    - 'curl --request POST --header "PRIVATE-TOKEN: $PERSONAL_ACCESS_TOKEN" --header "Content-Type: application/json" --data "{\"source_branch\": \"dev-ci\", \"target_branch\": \"main\", \"title\": \"Merge Request: dev-ci_2\"}"'
+    - 'curl --request POST --header "PRIVATE-TOKEN: $PERSONAL_ACCESS_TOKEN" --header "Content-Type: application/json" --data "{\"source_branch\": \"dev-ci\", \"target_branch\": \"main\", \"title\": \"Merge Request: dev-ci_2\"}" "https://gitlab.com/api/v4/projects/$CI_PROJECT_ID/merge_requests"'
 
   only:
     - dev-ci
