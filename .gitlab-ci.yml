@@ -61,7 +61,7 @@ dry_provision:
     - !reference [.provision_job, script]
     - terraform validate
     #- terraform plan -lock=false
-    - terraform plan -out=new_state.tfstate
+    - terraform plan -out=new_state.tfstate -lock=false
 
    
 
