@@ -76,8 +76,10 @@ actual_provision:
   script:
     - !reference [.provision_job, script]
    # - terraform apply "new_state.tfstate"
-    - terraform state list
-    - terraform state rm module.gcp_infrastructure.google_compute_address.public_ip
+    - terraform state rm module.gcp_infrastructure.google_compute_firewall.firewall_rule
+    - terraform state rm module.gcp_infrastructure.google_compute_network.vpc_network
+    - terraform state rm module.gcp_infrastructure.google_compute_subnetwork.subnet
+
 
     - terraform apply -auto-approve #-lock=false
 
