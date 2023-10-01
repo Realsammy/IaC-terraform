@@ -2,7 +2,7 @@ module "gcp_infrastructure" {
   source         = "./gcp_vm"
   vm_name        = "Jupiter"
   vm_username    = "devops"
-  environment    = "rail-network"
+  environment    = "jupiter-network"
   machine_type   = "n1-standard-1"
   vm_disk_size   = 30
   gcp_region     = "us-central1"
