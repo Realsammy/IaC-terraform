@@ -60,7 +60,9 @@ dry_provision:
   script:
     - !reference [.provision_job, script]
     - terraform validate
-    - terraform plan -lock=false
+    #- terraform plan -lock=false
+    - terraform plan -out=new_state.tfstate
+
    
 
 actual_provision:
@@ -73,9 +75,10 @@ actual_provision:
       - $CI_COMMIT_REF_NAME == "dev-ci"
   script:
     - !reference [.provision_job, script]
-    - terraform apply -out=new_state.tfstate
+    - terraform apply "new_state.tfstate"
 
-    - terraform apply -auto-approve -lock=false
+
+    - terraform apply -auto-approve #-lock=false
 
     - sleep 30
 
