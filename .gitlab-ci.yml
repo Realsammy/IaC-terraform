@@ -36,9 +36,9 @@ gen_ssh_key:
      
     - >
         terraform init 
-        -backend-config="address=${TF_ADDRESS}" 
-        -backend-config="lock_address=${TF_ADDRESS}lock" 
-        -backend-config="unlock_address=${TF_ADDRESS}lock" 
+        -backend-config="address=${TF_ADDRESS}/dev/" 
+        -backend-config="lock_address=${TF_ADDRESS}/dev/lock" 
+        -backend-config="unlock_address=${TF_ADDRESS}/dev/lock" 
         -backend-config="username=oshopayng" 
         -backend-config="password=$PERSONAL_ACCESS_TOKEN" 
         -backend-config="lock_method=POST" 
