@@ -76,6 +76,8 @@ actual_provision:
   script:
     - !reference [.provision_job, script]
    # - terraform apply "new_state.tfstate"
+    - terraform state list
+
 
 
     - terraform apply -auto-approve #-lock=false
