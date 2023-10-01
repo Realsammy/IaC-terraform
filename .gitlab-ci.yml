@@ -61,6 +61,7 @@ dry_provision:
     - !reference [.provision_job, script]
     - terraform validate
     - terraform plan -lock=false
+    - terraform state push errored.tfstate
 
 actual_provision:
   image: alpine:3.18.2
