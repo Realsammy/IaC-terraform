@@ -1,0 +1,23 @@
+# Exclude a Terraform State Files and Provider files
+.terraform*
+.terraform
+terraform*
+
+# Exclude Azure CLI secrets
+secrets
+
+# Exclude Notes on errors created manually locally
+notes
+
+# Exclude Key Pair used in testing locally
+#.keys/vm_keys*
+
+# Exclude terraform state files from the terraform import
+import/.terraform*
+import/.terraform
+import/terraform*
+
+# Exclude terraform state files from the flexible azure server module
+modules/flexible_server/.terraform*
+modules/flexible_server/.terraform
+modules/flexible_server/terraform*

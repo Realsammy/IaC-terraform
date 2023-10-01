@@ -1,0 +1,145 @@
+stages:
+  - ssh_gen
+  - plan
+  - merge_request
+  - apply
+  - debug
+  - ansible
+  - destroy
+
+variables:
+  TERRAFORM_VERSION: 1.5.7
+  GCP_PROJECT_ID: ${GCP_PROJECT_ID}
+  TF_ADDRESS: =https://gitlab.com/api/v4/projects/50683042/terraform/state
+ 
+
+gen_ssh_key:
+  image: bash:latest
+  stage: ssh_gen
+  script:
+    - apk update && apk add openssh-client
+    - mkdir .keys && cd ./.keys
+    - ssh-keygen -f vm_keys -q -t rsa -N "" && echo "Keys successfully generated"
+  artifacts:
+    name: "ssh-keys"
+    expire_in: "1 day"
+    paths:
+      - .keys
+     
+
+.provision_job:
+  script:
+    - apk update && apk upgrade
+    - apk add unzip
+    - wget -O terraform.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_386.zip
+    - unzip terraform.zip && mv ./terraform /bin
+    - terraform -version
+     
+    - >
+        terraform init 
+        -backend-config="address=${TF_ADDRESS}/dev/" 
+        -backend-config="lock_address=${TF_ADDRESS}/dev/lock" 
+        -backend-config="unlock_address=${TF_ADDRESS}/dev/lock" 
+        -backend-config="username=oshopayng" 
+        -backend-config="password=$PERSONAL_ACCESS_TOKEN" 
+        -backend-config="lock_method=POST" 
+        -backend-config="unlock_method=DELETE" 
+        -backend-config="retry_wait_min=5"
+      #   -backend-config="bucket=${TF_STATE_BUCKET}" 
+     #   -backend-config="prefix=${TF_STATE_OBJECT}" 
+     #   -backend-config="credentials=${GCP_SERVICE_ACCOUNT_KEY}" 
+
+
+
+      
+dry_provision:
+  image: alpine:3.18.2
+  stage: plan
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == "dev-ci"
+  script:
+    - !reference [.provision_job, script]
+    - terraform validate
+    - terraform plan -lock=false
+    #- terraform plan -out=new_state.tfstate -lock=false
+
+merge_request:
+  stage: merge_request
+  image: curlimages/curl
+  script:
+    - export PERSONAL_ACCESS_TOKEN=$PERSONAL_ACCESS_TOKEN
+    - export PROJECT_ACCESS_TOKEN=$PROJECT_ACCESS_TOKEN
+    - echo $PERSONAL_ACCESS_TOKEN
+    - echo $PROJECT_ACCESS_TOKEN
+
+    - 'curl --request POST --header "PRIVATE-TOKEN: $PERSONAL_ACCESS_TOKEN" --header "Content-Type: application/json" --data "{\"source_branch\": \"dev-ci\", \"target_branch\": \"main\", \"title\": \"Merge Request: dev-ci_2\"}" "https://gitlab.com/api/v4/projects/$CI_PROJECT_ID/merge_requests"'
+
+  only:
+    - dev-ci
+  
+
+actual_provision:
+  image: alpine:3.18.2
+  stage: apply
+  
+  allow_failure: true
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == "main"
+  script:
+    - !reference [.provision_job, script]
+   # - terraform apply "new_state.tfstate"
+    - terraform apply -auto-approve #-lock=false
+
+    - sleep 30
+
+  artifacts:
+    name: "vm_ip"
+    expire_in: "1 day"
+    paths:
+      - '*_vm_ip.txt'
+    
+  
+ansible_conf:
+  image: python:3.9.17-slim-bullseye
+  stage: ansible
+  allow_failure: true
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == "main"
+  script:
+    
+    - cat jupiter-network_vm_ip.txt > vm_ip.txt
+    - cat vm_ip.txt
+    - chmod 750 ansible_files
+    - cd ansible_files
+    - apt-get update && apt-get install ansible -y
+    - ansible --version
+    - ansible-playbook install_nginx.yml
+
+dry_destroy_tf:
+  image: alpine:3.18.2
+  stage: destroy
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == "main"
+  when: manual
+  script:
+    - !reference [.provision_job, script]
+    - terraform plan -destroy
+
+actual_destroy_tf:
+  image: alpine:3.18.2
+  stage: destroy
+  when: manual
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == "main"
+  script:
+    - !reference [.provision_job, script]
+    - terraform destroy -auto-approve
+
+
+
+ 

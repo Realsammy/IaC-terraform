@@ -1,0 +1,95 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Update Repository Index
+      apt: 
+        update_cache: yes
+
+    - name: Install aptitude using apt
+      apt: 
+        name: aptitude
+        state: latest
+
+    - name: Install required system packages
+      apt: 
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+
+    - name: Update the package database with the Docker packages from the newly added repo
+      apt:
+        update_cache: yes
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: latest
+
+    - name: Ensure docker service is running
+      service:
+        name: docker
+        state: started
+
+    - name: Install pip3
+      apt:
+        pkg:
+          - python3-pip
+
+    - name: Install Docker module for Python3
+      pip:
+        name: docker
+
+    - name: Install Docker Compose module for Python3
+      pip:
+        name: docker-compose
+
+    - name: Add user to Docker group
+      user:
+        name: devops # replace with your username
+        append: yes
+        groups: docker
+
+    - name: Install Latest nginx Server
+      apt: 
+        name: nginx # Docker not nginx
+        state: latest
+    - name: Start nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+
+#---
+
+#- hosts: all
+ # become: true
+  #tasks:
+   # - name: Update Repository Index
+    #  apt: 
+     #   update_cache: yes
+    #- name: Install Latest nginx Server
+     # apt: 
+      #  name: nginx # Docker not nginx
+       # state: latest
+    #- name: Start nginx
+     # service:
+      #  name: nginx
+       # state: started
+        #enabled: yes
+
