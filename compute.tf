@@ -1,6 +1,6 @@
 module "gcp_infrastructure" {
   source         = "./gcp_vm"
-  vm_name        = "Jupiter"
+  vm_name        = "jupiter"
   vm_username    = "devops"
   environment    = "jupiter-network"
   machine_type   = "n1-standard-1"
