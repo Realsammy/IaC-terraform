@@ -96,7 +96,7 @@ ansible_conf:
       - $CI_COMMIT_REF_NAME == "dev-ci"
   script:
     
-    - cat vm_ip.txt > vm_ip.txt
+    - cat jupiter-network_vm_ip.txt > vm_ip.txt
     - cat vm_ip.txt
     - chmod 750 ansible_files
     - cd ansible_files
@@ -126,3 +126,6 @@ actual_destroy_tf:
     - !reference [.provision_job, script]
     - terraform destroy -auto-approve
 
+
+
+ 
