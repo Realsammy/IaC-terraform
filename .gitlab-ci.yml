@@ -63,7 +63,20 @@ dry_provision:
     - terraform plan -lock=false
     #- terraform plan -out=new_state.tfstate -lock=false
 
-   
+merge_request:
+  stage: merge_request
+  image: curlimages/curl
+  script:
+    - export PERSONAL_ACCESS_TOKEN=$PERSONAL_ACCESS_TOKEN
+    - export PROJECT_ACCESS_TOKEN=$PROJECT_ACCESS_TOKEN
+    - echo $PERSONAL_ACCESS_TOKEN
+    - echo $PROJECT_ACCESS_TOKEN
+
+    - 'curl --request POST --header "PRIVATE-TOKEN: $PERSONAL_ACCESS_TOKEN" --header "Content-Type: application/json" --data "{\"source_branch\": \"dev-ci\", \"target_branch\": \"master\", \"title\": \"Merge Request: dev-ci_2\"}" "https://gitlab.bincom.net:801/api/v4/projects/$CI_PROJECT_ID/merge_requests"'
+
+  only:
+    - dev-ci
+  
 
 actual_provision:
   image: alpine:3.18.2
