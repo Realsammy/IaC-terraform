@@ -60,7 +60,7 @@ dry_provision:
   script:
     - !reference [.provision_job, script]
     - terraform validate
-    - terraform plan #-lock=false
+    - terraform plan -lock=false
 
 actual_provision:
   image: alpine:3.18.2
@@ -73,7 +73,7 @@ actual_provision:
   script:
     - !reference [.provision_job, script]
    
-    - terraform apply -auto-approve #-lock=false
+    - terraform apply -auto-approve -lock=false
     - sleep 30
 
   artifacts:
