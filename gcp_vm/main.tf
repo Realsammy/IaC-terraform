@@ -58,15 +58,8 @@ metadata = {
 
 }
 
-
-# Create a Google Cloud Storage (GCS) bucket
-resource "google_storage_bucket" "jupiter_bucket" {
-  name     = "jupiter-rail-bucket"
-  location = "US"  # Change this to your desired location
-}
-
 resource "google_storage_bucket" "auto-expire" {
-  name          = "auto-expiring-bucket"
+  name          = "jupiter-rail-bucket"
   location      = "US"
   force_destroy = true
 
