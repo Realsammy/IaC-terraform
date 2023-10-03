@@ -10,6 +10,7 @@ stages:
 variables:
   TERRAFORM_VERSION: 1.5.7
   GCP_PROJECT_ID: ${GCP_PROJECT_ID}
+  GCP_SERVICE_ACCOUNT_KEY: ${GCP_SERVICE_ACCOUNT_KEY}
   TF_ADDRESS: =https://gitlab.com/api/v4/projects/50683042/terraform/state
  
 
