@@ -3,16 +3,16 @@
   become: true
   tasks:
     - name: Update Repository Index
-      apt: 
+      apt:
         update_cache: yes
 
     - name: Install aptitude using apt
-      apt: 
+      apt:
         name: aptitude
         state: latest
 
     - name: Install required system packages
-      apt: 
+      apt:
         name: "{{ item }}"
         state: latest
       loop:
@@ -60,36 +60,28 @@
 
     - name: Add user to Docker group
       user:
-        name: devops # replace with your username
+        name: devops  # Replace with your username
         append: yes
         groups: docker
 
     - name: Install Latest nginx Server
-      apt: 
-        name: nginx # Docker not nginx
+      apt:
+        name: nginx  # Docker not nginx
         state: latest
+
     - name: Start nginx
       service:
         name: nginx
         state: started
         enabled: yes
 
+    - name: Clone GitHub repository and deploy app
+      git:
+        repo: https://github.com/Realsammy/projCert.git
+        dest: /home/devops 
 
-#---
-
-#- hosts: all
- # become: true
-  #tasks:
-   # - name: Update Repository Index
-    #  apt: 
-     #   update_cache: yes
-    #- name: Install Latest nginx Server
-     # apt: 
-      #  name: nginx # Docker not nginx
-       # state: latest
-    #- name: Start nginx
-     # service:
-      #  name: nginx
-       # state: started
-        #enabled: yes
-
+    - name: Execute deployment steps (replace with actual steps)
+      command: |
+        cd /projectCert 
+        docker build -t projectc .
+        docker run -d -p 80:80 projectc 
