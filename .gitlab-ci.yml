@@ -9,9 +9,11 @@ stages:
 
 variables:
   TERRAFORM_VERSION: 1.5.7
-  GCP_PROJECT_ID: ${GCP_PROJECT_ID}
-  GCP_SERVICE_ACCOUNT_KEY: ${GCP_SERVICE_ACCOUNT_KEY}
-  TF_ADDRESS: =https://gitlab.com/api/v4/projects/50683042/terraform/state
+  TF_STATE_BUCKET: ${TF_STATE_BUCKET}
+  TF_STATE_OBJECT: ${TF_STATE_OBJECT}
+  #GCP_PROJECT_ID: ${GCP_PROJECT_ID}
+ # GCP_SERVICE_ACCOUNT_KEY: ${GCP_SERVICE_ACCOUNT_KEY}
+  #TF_ADDRESS: =https://gitlab.com/api/v4/projects/50683042/terraform/state
  
 
 gen_ssh_key:
@@ -38,17 +40,17 @@ gen_ssh_key:
      
     - >
         terraform init 
-        -backend-config="address=${TF_ADDRESS}/dev/" 
-        -backend-config="lock_address=${TF_ADDRESS}/dev/lock" 
-        -backend-config="unlock_address=${TF_ADDRESS}/dev/lock" 
-        -backend-config="username=oshopayng" 
-        -backend-config="password=$PERSONAL_ACCESS_TOKEN" 
-        -backend-config="lock_method=POST" 
-        -backend-config="unlock_method=DELETE" 
-        -backend-config="retry_wait_min=5"
-      #   -backend-config="bucket=${TF_STATE_BUCKET}" 
-     #   -backend-config="prefix=${TF_STATE_OBJECT}" 
-     #   -backend-config="credentials=${GCP_SERVICE_ACCOUNT_KEY}" 
+      #  -backend-config="address=${TF_ADDRESS}/dev/" 
+      #  -backend-config="lock_address=${TF_ADDRESS}/dev/lock" 
+      #  -backend-config="unlock_address=${TF_ADDRESS}/dev/lock" 
+      #  -backend-config="username=oshopayng" 
+      #  -backend-config="password=$PERSONAL_ACCESS_TOKEN" 
+      #  -backend-config="lock_method=POST" 
+      #  -backend-config="unlock_method=DELETE" 
+      #  -backend-config="retry_wait_min=5"
+        -backend-config="bucket=${TF_STATE_BUCKET}" 
+        -backend-config="prefix=${TF_STATE_OBJECT}" 
+        -backend-config="credentials=${GCP_SERVICE_ACCOUNT_KEY}" 
 
 
 
