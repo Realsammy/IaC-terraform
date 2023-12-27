@@ -56,9 +56,6 @@ jobs:
         with:
           terraform_version: 1.5.7
 
-      - name: Validate Terraform Configuration
-       # run: terraform validate
-
       - name: Plan (Dry Run)
         run: terraform plan -lock=false
 
