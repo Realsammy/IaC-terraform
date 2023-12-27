@@ -4,9 +4,7 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - dev-ci
+  
 
 jobs:
   gen_ssh_key:
@@ -64,13 +62,6 @@ jobs:
       - name: Plan (Dry Run)
         run: terraform plan -lock=false
 
-  merge_request:
-    runs-on: ubuntu-latest
-    needs: gen_ssh_key
-    steps:
-      - name: Merge Request
-        run: |
-          # Add GitHub-specific steps for handling merge requests here
 
   apply_changes:
     runs-on: ubuntu-latest
