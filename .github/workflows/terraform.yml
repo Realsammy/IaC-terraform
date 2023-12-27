@@ -14,11 +14,11 @@ jobs:
         run: |
           mkdir .keys && cd .keys
           ssh-keygen -f vm_keys -q -t rsa -N "" && echo "Keys successfully generated"
-        artifacts:
+      - name: Archive SSH keys
+        uses: actions/upload-artifact@v2
+        with:
           name: ssh-keys
-          expire_in: 1 day
-          paths:
-            - .keys
+          path: .keys
 
   provision:
     runs-on: ubuntu-latest
