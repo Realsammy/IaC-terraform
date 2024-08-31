@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: my-terraform-script
+  description: A Terraform script for provisioning cloud infrastructure.
+  annotations:
+    github.com/project-slug: my-org/my-terraform-repo
+    backstage.io/techdocs-ref: dir:./docs
+    terraform.io/module-name: my-terraform-module
+  tags:
+    - terraform
+    - infrastructure
+spec:
+  type: infrastructure
+  owner: infrastructure-team
+  lifecycle: production
+  providesApis:
+    - infrastructure-api
